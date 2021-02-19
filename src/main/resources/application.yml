@@ -1,0 +1,16 @@
+server:
+  port: 8081
+  contextPath: /api
+
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:h2:mem:product
+
+springfox:
+  documentation:
+    swagger:
+      v2:
+        path: /api-docs
