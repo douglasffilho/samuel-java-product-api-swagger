@@ -43,6 +43,11 @@ public class Product {
         this.inventory = inventory;
     }
 
+    public Product(Long id, String name, BigDecimal value, String description, Inventory inventory) {
+        this(name, value, description, inventory);
+        this.id = id;
+    }
+
     public Long getId() {
         return id;
     }
