@@ -401,4 +401,8 @@ class ProductControllerTest {
         assertEquals(HttpStatus.NOT_FOUND, responseBody.getStatus());
         assertNull(responseBody.getResult());
     }
+
+    // TODO list prices with one or more found products
+
+    // TODO list prices without any product registered
 }
