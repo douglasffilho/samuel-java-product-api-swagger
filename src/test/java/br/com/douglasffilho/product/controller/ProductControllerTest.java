@@ -61,19 +61,19 @@ class ProductControllerTest {
     public void testProductCreation() throws Exception {
         // given
         Product product = new Product(
-                "Product Test",
-                BigDecimal.TEN,
-                "A test product",
-                new Inventory(5)
+            "Product Test",
+            BigDecimal.TEN,
+            "A test product",
+            new Inventory(5)
         );
         String json = MAPPER.writeValueAsString(product);
 
         // when
         when(this.repository.save(any(Product.class))).thenReturn(product);
         MvcResult result = mockMvc.perform(
-                post("/api/products")
-                        .content(json)
-                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+            post("/api/products")
+                .content(json)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
         ).andReturn();
 
         // then
@@ -94,19 +94,19 @@ class ProductControllerTest {
     public void testProductCreationThrowsBadProductException() throws Exception {
         // given
         Product product = new Product(
-                "Product Test",
-                BigDecimal.TEN,
-                "A test product",
-                new Inventory(5)
+            "Product Test",
+            BigDecimal.TEN,
+            "A test product",
+            new Inventory(5)
         );
         String json = MAPPER.writeValueAsString(product);
 
         // when
         when(this.repository.save(any(Product.class))).thenThrow(new RuntimeException("invalid-product-name"));
         MvcResult result = mockMvc.perform(
-                post("/api/products")
-                        .content(json)
-                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+            post("/api/products")
+                .content(json)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
         ).andReturn();
 
         // then
@@ -127,25 +127,25 @@ class ProductControllerTest {
     public void testProductUpdate() throws Exception {
         // given
         Product product = new Product(
-                1L,
-                "Product Test",
-                BigDecimal.TEN,
-                "A test product",
-                new Inventory(5)
+            "1",
+            "Product Test",
+            BigDecimal.TEN,
+            "A test product",
+            new Inventory(5)
         );
         String json = MAPPER.writeValueAsString(product);
 
         // when
-        when(this.repository.findById(1L)).thenReturn(Optional.of(product));
+        when(this.repository.findById("1")).thenReturn(Optional.of(product));
         when(this.repository.save(any(Product.class))).thenReturn(product);
         MvcResult result = mockMvc.perform(
-                put("/api/products/1")
-                        .content(json)
-                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+            put("/api/products/1")
+                .content(json)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
         ).andReturn();
 
         // then
-        verify(this.repository, times(1)).findById(1L);
+        verify(this.repository, times(1)).findById("1");
         verify(this.repository, times(1)).save(any(Product.class));
         assertNotNull(result);
         MockHttpServletResponse response = result.getResponse();
@@ -163,25 +163,25 @@ class ProductControllerTest {
     public void testProductUpdateThrowsBadProductException() throws Exception {
         // given
         Product product = new Product(
-                1L,
-                null,
-                BigDecimal.TEN,
-                "A test product",
-                new Inventory(5)
+            "1",
+            null,
+            BigDecimal.TEN,
+            "A test product",
+            new Inventory(5)
         );
         String json = MAPPER.writeValueAsString(product);
 
         // when
-        when(this.repository.findById(1L)).thenReturn(Optional.of(product));
+        when(this.repository.findById("1")).thenReturn(Optional.of(product));
         when(this.repository.save(any(Product.class))).thenThrow(new RuntimeException("invalid-product-name"));
         MvcResult result = mockMvc.perform(
-                put("/api/products/1")
-                        .content(json)
-                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+            put("/api/products/1")
+                .content(json)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
         ).andReturn();
 
         // then
-        verify(this.repository, times(1)).findById(1L);
+        verify(this.repository, times(1)).findById("1");
         verify(this.repository, times(1)).save(any(Product.class));
         assertNotNull(result);
         MockHttpServletResponse response = result.getResponse();
@@ -199,23 +199,23 @@ class ProductControllerTest {
     public void testProductUpdateNotMatchingIdThrowsBadProductException() throws Exception {
         // given
         Product product = new Product(
-                2L,
-                "Product Test",
-                BigDecimal.TEN,
-                "A test product",
-                new Inventory(5)
+            "2",
+            "Product Test",
+            BigDecimal.TEN,
+            "A test product",
+            new Inventory(5)
         );
         String json = MAPPER.writeValueAsString(product);
 
         // when
         MvcResult result = mockMvc.perform(
-                put("/api/products/1")
-                        .content(json)
-                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+            put("/api/products/1")
+                .content(json)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
         ).andReturn();
 
         // then
-        verify(this.repository, times(0)).findById(any(Long.class));
+        verify(this.repository, times(0)).findById(any(String.class));
         verify(this.repository, times(0)).save(any(Product.class));
         assertNotNull(result);
         MockHttpServletResponse response = result.getResponse();
@@ -233,22 +233,22 @@ class ProductControllerTest {
     public void testProductUpdateNotValidIdThrowsBadProductException() throws Exception {
         // given
         Product product = new Product(
-                "Product Test",
-                BigDecimal.TEN,
-                "A test product",
-                new Inventory(5)
+            "Product Test",
+            BigDecimal.TEN,
+            "A test product",
+            new Inventory(5)
         );
         String json = MAPPER.writeValueAsString(product);
 
         // when
         MvcResult result = mockMvc.perform(
-                put("/api/products/1")
-                        .content(json)
-                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+            put("/api/products/1")
+                .content(json)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
         ).andReturn();
 
         // then
-        verify(this.repository, times(0)).findById(any(Long.class));
+        verify(this.repository, times(0)).findById(any(String.class));
         verify(this.repository, times(0)).save(any(Product.class));
         assertNotNull(result);
         MockHttpServletResponse response = result.getResponse();
@@ -266,24 +266,24 @@ class ProductControllerTest {
     public void testProductUpdateThrowsProductNotFoundException() throws Exception {
         // given
         Product product = new Product(
-                1L,
-                "Product Test",
-                BigDecimal.TEN,
-                "A test product",
-                new Inventory(5)
+            "1",
+            "Product Test",
+            BigDecimal.TEN,
+            "A test product",
+            new Inventory(5)
         );
         String json = MAPPER.writeValueAsString(product);
 
         // when
-        when(this.repository.findById(1L)).thenReturn(Optional.empty());
+        when(this.repository.findById("1")).thenReturn(Optional.empty());
         MvcResult result = mockMvc.perform(
-                put("/api/products/1")
-                        .content(json)
-                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+            put("/api/products/1")
+                .content(json)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
         ).andReturn();
 
         // then
-        verify(this.repository, times(1)).findById(1L);
+        verify(this.repository, times(1)).findById("1");
         verify(this.repository, times(0)).save(any(Product.class));
         assertNotNull(result);
         MockHttpServletResponse response = result.getResponse();
@@ -301,19 +301,19 @@ class ProductControllerTest {
     public void testFindProduct() throws Exception {
         // given
         Product product = new Product(
-                1L,
-                "Product Test",
-                BigDecimal.TEN,
-                "A test product",
-                new Inventory(5)
+            "1",
+            "Product Test",
+            BigDecimal.TEN,
+            "A test product",
+            new Inventory(5)
         );
 
         // when
-        when(this.repository.findById(1L)).thenReturn(Optional.of(product));
+        when(this.repository.findById("1")).thenReturn(Optional.of(product));
         MvcResult result = mockMvc.perform(get("/api/products/1")).andReturn();
 
         // then
-        verify(this.repository, times(1)).findById(1L);
+        verify(this.repository, times(1)).findById("1");
         assertNotNull(result);
         MockHttpServletResponse response = result.getResponse();
         assertNotNull(response);
@@ -329,7 +329,7 @@ class ProductControllerTest {
     @WithMockUser(username = "test-user", authorities = {"CUSTOMER"})
     public void testFindProductThrowsProductNotFoundException() throws Exception {
         // given
-        Long id = 1L;
+        String id = "1";
 
         // when
         when(this.repository.findById(id)).thenReturn(Optional.empty());
@@ -353,20 +353,20 @@ class ProductControllerTest {
     public void testDeleteProduct() throws Exception {
         // given
         Product product = new Product(
-                1L,
-                "Product Test",
-                BigDecimal.TEN,
-                "A test product",
-                new Inventory(5)
+            "1",
+            "Product Test",
+            BigDecimal.TEN,
+            "A test product",
+            new Inventory(5)
         );
 
         // when
-        when(this.repository.findById(1L)).thenReturn(Optional.of(product));
+        when(this.repository.findById("1")).thenReturn(Optional.of(product));
         MvcResult result = mockMvc.perform(delete("/api/products/1")).andReturn();
 
         // then
-        verify(this.repository, times(1)).findById(1L);
-        verify(this.repository, times(1)).deleteById(1L);
+        verify(this.repository, times(1)).findById("1");
+        verify(this.repository, times(1)).deleteById("1");
         assertNotNull(result);
         MockHttpServletResponse response = result.getResponse();
         assertNotNull(response);
@@ -382,7 +382,7 @@ class ProductControllerTest {
     @WithMockUser(username = "test-user", authorities = {"ADMINISTRATOR"})
     public void testDeleteProductThrowsProductNotFoundException() throws Exception {
         // given
-        Long id = 1L;
+        String id = "1";
 
         // when
         when(this.repository.findById(id)).thenReturn(Optional.empty());
@@ -390,7 +390,7 @@ class ProductControllerTest {
 
         // then
         verify(this.repository, times(1)).findById(id);
-        verify(this.repository, times(0)).deleteById(1L);
+        verify(this.repository, times(0)).deleteById("1");
         assertNotNull(result);
         MockHttpServletResponse response = result.getResponse();
         assertNotNull(response);

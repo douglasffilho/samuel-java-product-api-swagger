@@ -1,6 +1,5 @@
 spring:
-  jpa:
-    hibernate:
-      ddl-auto: create
-  datasource:
-    url: jdbc:h2:mem:test
+  mongodb:
+    embedded:
+      version: 4.0.2
+      features: sync_delay,no_http_interface_arg,only_with_ssl

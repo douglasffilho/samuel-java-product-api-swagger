@@ -1,12 +1,15 @@
 package br.com.douglasffilho.product.service;
 
 import br.com.douglasffilho.product.domain.Product;
+import br.com.douglasffilho.product.domain.ProductPriceProjection;
 import br.com.douglasffilho.product.error.BadProductException;
 import br.com.douglasffilho.product.error.ProductNotFoundException;
 import br.com.douglasffilho.product.repository.ProductRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ProductService {
@@ -27,7 +30,7 @@ public class ProductService {
         }
     }
 
-    public Product updateProduct(final Long id, final Product product) {
+    public Product updateProduct(final String id, final Product product) {
         if (product.getId() == null || !product.getId().equals(id))
             throw new BadProductException(product.getName());
 
@@ -41,13 +44,17 @@ public class ProductService {
         }
     }
 
-    public Product findById(final Long id) {
+    public Product findById(final String id) {
         return this.repository.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
     }
 
-    public Product deleteById(final Long id) {
+    public Product deleteById(final String id) {
         Product product = this.repository.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
         this.repository.deleteById(id);
         return product;
+    }
+
+    public List<ProductPriceProjection> listPrices() {
+        return this.repository.findProductPrices();
     }
 }

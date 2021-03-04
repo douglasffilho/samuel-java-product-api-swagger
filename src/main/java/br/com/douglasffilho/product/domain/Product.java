@@ -1,35 +1,22 @@
 package br.com.douglasffilho.product.domain;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.math.BigDecimal;
 
-@Entity
-@Table(name = "products")
+@Document("products")
 public class Product {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
-    @Column(nullable = false, unique = true)
     private String name;
 
-    @Column(nullable = false)
     private BigDecimal value;
 
-    @Column(nullable = false)
     private String description;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "inventory_id", nullable = false)
     private Inventory inventory;
 
     public Product() {
@@ -43,12 +30,12 @@ public class Product {
         this.inventory = inventory;
     }
 
-    public Product(Long id, String name, BigDecimal value, String description, Inventory inventory) {
+    public Product(String id, String name, BigDecimal value, String description, Inventory inventory) {
         this(name, value, description, inventory);
         this.id = id;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 

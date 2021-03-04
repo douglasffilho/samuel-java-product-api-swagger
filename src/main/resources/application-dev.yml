@@ -3,15 +3,10 @@ server:
   contextPath: /api
 
 spring:
-  jpa:
-    database-platform: org.hibernate.dialect.MySQL8Dialect
-    hibernate:
-      ddl-auto: update
-  datasource:
-    url: jdbc:mysql://localhost:3308/products
-    username: dbuser
-    password: dbpassword
-    driver-class-name: com.mysql.cj.jdbc.Driver
+  data:
+    mongodb:
+      uri: 'mongodb://dev_mongo:dev_password@localhost:27777/products'
+      auto-index-creation: true
 
 springfox:
   documentation:

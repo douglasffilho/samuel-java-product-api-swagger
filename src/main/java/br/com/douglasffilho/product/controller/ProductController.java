@@ -3,9 +3,11 @@ package br.com.douglasffilho.product.controller;
 import br.com.douglasffilho.authorizationservice.annotations.IsAdministrator;
 import br.com.douglasffilho.authorizationservice.annotations.IsManager;
 import br.com.douglasffilho.product.domain.Product;
+import br.com.douglasffilho.product.domain.ProductPriceProjection;
 import br.com.douglasffilho.product.response.ProductCreatedResponse;
 import br.com.douglasffilho.product.response.ProductDeletedResponse;
 import br.com.douglasffilho.product.response.ProductFoundResponse;
+import br.com.douglasffilho.product.response.ProductPricesFoundResponse;
 import br.com.douglasffilho.product.response.ProductUpdatedResponse;
 import br.com.douglasffilho.product.service.ProductService;
 import io.swagger.annotations.Api;
@@ -26,6 +28,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @Api(value = "products")
@@ -71,7 +75,7 @@ public class ProductController {
     })
     @ApiImplicitParams(@ApiImplicitParam(name = "Authorization", paramType = "header", format = "Bearer {token}"))
     @IsManager
-    public ProductUpdatedResponse update(@ApiParam(name = "product id") @PathVariable Long id, @RequestBody Product product) {
+    public ProductUpdatedResponse update(@ApiParam(name = "product id") @PathVariable String id, @RequestBody Product product) {
         final Product updated = this.service.updateProduct(id, product);
         return new ProductUpdatedResponse(updated);
     }
@@ -90,7 +94,7 @@ public class ProductController {
             @ApiResponse(code = 404, message = "product-not-found", response = ProductFoundResponse.class),
     })
     @ApiImplicitParams(@ApiImplicitParam(name = "Authorization", paramType = "header", format = "Bearer {token}"))
-    public ProductFoundResponse find(@ApiParam(name = "product id") @PathVariable Long id) {
+    public ProductFoundResponse find(@ApiParam(name = "product id") @PathVariable String id) {
         final Product found = this.service.findById(id);
         return new ProductFoundResponse(found);
     }
@@ -110,8 +114,14 @@ public class ProductController {
     })
     @ApiImplicitParams(@ApiImplicitParam(name = "Authorization", paramType = "header", format = "Bearer {token}"))
     @IsAdministrator
-    public ProductDeletedResponse delete(@ApiParam(name = "product id") @PathVariable Long id) {
+    public ProductDeletedResponse delete(@ApiParam(name = "product id") @PathVariable String id) {
         final Product found = this.service.deleteById(id);
         return new ProductDeletedResponse(found);
+    }
+
+    @GetMapping("/prices")
+    public ProductPricesFoundResponse listPrices() {
+        List<ProductPriceProjection> prices = this.service.listPrices();
+        return new ProductPricesFoundResponse(prices);
     }
 }
