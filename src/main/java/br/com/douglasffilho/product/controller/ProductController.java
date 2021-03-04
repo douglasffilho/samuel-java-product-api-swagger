@@ -10,6 +10,7 @@ import br.com.douglasffilho.product.response.ProductFoundResponse;
 import br.com.douglasffilho.product.response.ProductPricesFoundResponse;
 import br.com.douglasffilho.product.response.ProductUpdatedResponse;
 import br.com.douglasffilho.product.service.ProductService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -30,6 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+@Api("products")
 @RestController
 @RequestMapping("/api/products")
 public class ProductController {
