@@ -15,7 +15,7 @@
 	<description>Product API</description>
 	<properties>
 		<java.version>11</java.version>
-		<springfox-version>2.7.0</springfox-version>
+		<springfox-version>2.10.0</springfox-version>
         <embedded-mongo.version>2.2.0</embedded-mongo.version>
 	</properties>
 	<dependencies>
